@@ -1,0 +1,10 @@
+.idea/
+*.tmp
+runtime/
+conf/environment.conf
+*.tar.gz
+conf/aliyun.conf
+conf/databases.conf
+conf/redis.conf
+novel
+novel.exe*
