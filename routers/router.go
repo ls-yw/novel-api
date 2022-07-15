@@ -1,24 +1,20 @@
 package routers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"novel/controllers"
+	"novel/utils/log"
+	"novel/woodlsy/middleware"
+)
 
-func Init() *gin.Engine {
+func Create() *gin.Engine {
 	router := gin.New()
 
-	router.Use(gin.Logger())
+	router.Use(log.GinLogger())
 
-	router.Use(gin.Recovery())
+	router.Use(middleware.GinRecovery(true))
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	//router.Group("/", func(c *gin.Context) {
-	//	c.JSON(200, gin.H{
-	//		"message": "pong",
-	//	})
-	//})
+	router.GET("/category", controllers.Category{}.All)
 
 	return router
 }

@@ -8,3 +8,5 @@ conf/databases.conf
 conf/redis.conf
 novel
 novel.exe*
+tmp/
+configs/
