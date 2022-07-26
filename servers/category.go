@@ -1,12 +1,12 @@
 package servers
 
 import (
-	"fmt"
 	"novel/models"
 )
 
-func GetOne() {
+func GetOne() models.Category {
 	var a models.Category
 	a.GetOne()
-	fmt.Printf("%+v", a)
+	return a
+	//fmt.Printf("%+v", a)
 }

@@ -3,11 +3,11 @@ package core
 import (
 	"fmt"
 	"github.com/go-redis/redis"
-	"novel/utils/log"
 	"novel/woodlsy"
+	"novel/woodlsy/log"
 )
 
-func init() {
+func RedisInit() {
 	woodlsy.Redis = redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", woodlsy.Configs.Redis.Host, woodlsy.Configs.Redis.Port),
 		Password: woodlsy.Configs.Redis.Password, // no password set
@@ -19,4 +19,5 @@ func init() {
 		errMsg := "failed to init redis"
 		panic(errMsg)
 	}
+	fmt.Println("redis 连接成功")
 }

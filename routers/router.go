@@ -3,7 +3,7 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"novel/controllers"
-	"novel/utils/log"
+	"novel/woodlsy/log"
 	"novel/woodlsy/middleware"
 )
 

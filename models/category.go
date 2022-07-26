@@ -7,7 +7,7 @@ type Category struct {
 }
 
 func (m Category) GetOne() {
-	Orm.GetOne(&m, map[string]interface{}{})
+	Orm.GetOne(&m, map[string]interface{}{}, "parent_id desc")
 }
 
 //func (c Category) GetOne() Category {

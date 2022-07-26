@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	ormLogger "gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-	"novel/utils/log"
 	"novel/woodlsy"
+	"novel/woodlsy/log"
+	"time"
 )
 
 //type Mysql struct {
@@ -23,6 +25,13 @@ func connect() *gorm.DB {
 		woodlsy.Configs.Databases.Dbname,
 		woodlsy.Configs.Databases.Charset,
 	)
+
+	dbLogger := log.NewDbLogger(ormLogger.Info, log.Config{
+		SlowThreshold:             time.Second, // 慢 SQL 阈值
+		IgnoreRecordNotFoundError: true,        // 忽略ErrRecordNotFound（记录未找到）错误
+		Colorful:                  false,       // 禁用彩色打印
+	})
+
 	con, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   woodlsy.Configs.Databases.Prefix, // table name prefix, table for `User` would be `t_users`
@@ -30,12 +39,13 @@ func connect() *gorm.DB {
 			//NoLowerCase:   true,                              // skip the snake_casing of names
 			//NameReplacer: strings.NewReplacer("CID", "Cid"), // use name replacer to change struct/field name before convert it to db name
 		},
+		Logger: dbLogger,
 	})
 
 	if err != nil {
 		log.Logger.Error("数据库连接失败", err, dsn)
 		panic("数据库链接失败")
 	}
-	fmt.Println("链接数据库成功")
+	fmt.Println("数据库 连接成功")
 	return con
 }

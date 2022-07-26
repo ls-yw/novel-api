@@ -1,12 +1,33 @@
 package driver
 
+import "gorm.io/gorm"
+
 type Orm struct {
 }
 
-var db = connect()
+type OrmInterface interface {
+	GetOne(interface{}, map[string]interface{}, string)
+	GetList(interface{}, map[string]interface{}, string, int, int)
+	GetAll(interface{}, map[string]interface{}, string)
+}
 
-func (Orm) GetOne(m interface{}, where map[string]interface{}) (int64, error) {
+var db *gorm.DB
 
-	result := db.Where(where).Order("parent_id desc").First(&m)
+func OrmInit() {
+	db = connect()
+}
+
+func (Orm) GetOne(m interface{}, where map[string]interface{}, orderBy string) (int64, error) {
+	result := db.Where(where).Order(orderBy).First(&m)
+	return result.RowsAffected, result.Error
+}
+
+func (Orm) GetList(m []interface{}, where map[string]interface{}, orderBy string, offset int, row int) (int64, error) {
+	result := db.Where(where).Order(orderBy).Offset(offset).Limit(row).Find(&m)
+	return result.RowsAffected, result.Error
+}
+
+func (Orm) GetAll(m []interface{}, where map[string]interface{}, orderBy string) (int64, error) {
+	result := db.Where(where).Order(orderBy).Find(&m)
 	return result.RowsAffected, result.Error
 }

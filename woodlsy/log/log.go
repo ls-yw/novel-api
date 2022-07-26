@@ -13,12 +13,17 @@ import (
 
 var Logger *zap.SugaredLogger
 
-func init() {
+func LogInit() {
+
+	var stdoutLevel zapcore.Level
+	if woodlsy.Configs.App.Debug {
+		stdoutLevel = zapcore.DebugLevel
+	} else {
+		stdoutLevel = zapcore.ErrorLevel
+	}
 
 	file := openLogFile()
-
 	encoder := getEncoder()
-
 	consoleEncoder := getConsoleEncoder()
 	newCore := zapcore.NewTee(
 		zapcore.NewCore(
@@ -26,7 +31,7 @@ func init() {
 			file,
 			zapcore.DebugLevel,
 		), // 写入文件
-		zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), zapcore.ErrorLevel), // 写入控制台
+		zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), stdoutLevel), // 写入控制台
 	)
 
 	//core := zapcore.NewCore(
@@ -38,6 +43,7 @@ func init() {
 	l := zap.New(newCore, zap.AddCaller())
 	zap.ReplaceGlobals(l)
 	Logger = l.Sugar()
+	fmt.Println("日志模块加载成功")
 }
 
 func openLogFile() zapcore.WriteSyncer {
@@ -72,7 +78,7 @@ func getEncoder() zapcore.EncoderConfig {
 	return zapcore.EncoderConfig{
 		TimeKey:        "ts",
 		LevelKey:       "level",
-		NameKey:        "logger",
+		NameKey:        "Llogger",
 		CallerKey:      "caller_line",
 		FunctionKey:    zapcore.OmitKey,
 		MessageKey:     "msg",

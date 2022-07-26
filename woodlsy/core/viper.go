@@ -6,7 +6,7 @@ import (
 	"novel/woodlsy"
 )
 
-func init() {
+func ConfigInit() {
 	Viper("./configs/app.yml")
 }
 

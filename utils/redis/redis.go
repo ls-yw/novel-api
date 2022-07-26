@@ -1,8 +1,8 @@
 package redis
 
 import (
-	"novel/utils/log"
 	"novel/woodlsy"
+	"novel/woodlsy/log"
 	"time"
 )
 
