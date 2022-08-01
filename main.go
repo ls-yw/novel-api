@@ -2,8 +2,7 @@ package main
 
 import (
 	"novel/woodlsy/core"
-	"novel/woodlsy/driver"
-	_ "novel/woodlsy/driver"
+	"novel/woodlsy/db"
 	"novel/woodlsy/log"
 )
 
@@ -18,7 +17,7 @@ func main() {
 	core.ConfigInit()
 	log.LogInit()
 	core.RedisInit()
-	driver.OrmInit()
+	db.OrmInit()
 
 	novel := &http.Server{
 		Addr:    "127.0.0.1:8888",

@@ -59,7 +59,6 @@ func NewDbLogger(level ormLogger.LogLevel, config Config) *DbLogger {
 
 // LogMode log mode
 func (l *DbLogger) LogMode(level ormLogger.LogLevel) ormLogger.Interface {
-	fmt.Println(1, "===")
 	newLogger := *l
 	newLogger.LogLevel = level
 	return &newLogger
@@ -67,7 +66,6 @@ func (l *DbLogger) LogMode(level ormLogger.LogLevel) ormLogger.Interface {
 
 // Info print info
 func (l DbLogger) Info(ctx context.Context, msg string, data ...interface{}) {
-	fmt.Println(2, "===")
 	if l.LogLevel >= ormLogger.Info {
 		Logger.Info(l.infoStr+msg, utils.FileWithLineNum(), data)
 		//l.Printf(l.infoStr+msg, append([]interface{}{utils.FileWithLineNum()}, data...)...)
@@ -76,7 +74,6 @@ func (l DbLogger) Info(ctx context.Context, msg string, data ...interface{}) {
 
 // Warn print warn messages
 func (l DbLogger) Warn(ctx context.Context, msg string, data ...interface{}) {
-	fmt.Println(3, "===")
 	if l.LogLevel >= ormLogger.Warn {
 		Logger.Warn(l.warnStr+msg, utils.FileWithLineNum(), data)
 	}
@@ -84,8 +81,6 @@ func (l DbLogger) Warn(ctx context.Context, msg string, data ...interface{}) {
 
 // Error print error messages
 func (l DbLogger) Error(ctx context.Context, msg string, data ...interface{}) {
-	fmt.Println(4, "===")
-	Logger.Error(1111)
 	if l.LogLevel >= ormLogger.Error {
 		Logger.Error(l.errStr+msg, utils.FileWithLineNum(), data)
 	}

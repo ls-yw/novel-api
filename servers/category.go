@@ -1,12 +1,13 @@
 package servers
 
 import (
+	"fmt"
 	"novel/models"
 )
 
 func GetOne() models.Category {
-	var a models.Category
-	a.GetOne()
+	a := models.Category{}
+	b := a.GetOne(map[string]interface{}{"id": 88}, "id asc")
+	fmt.Printf("%+v", b)
 	return a
-	//fmt.Printf("%+v", a)
 }

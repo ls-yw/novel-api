@@ -1,4 +1,4 @@
-package driver
+package db
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 )
 
 //type Mysql struct {
-//	db *gorm.DB
+//	Db *gorm.DB
 //}
 
 func connect() *gorm.DB {
@@ -37,7 +37,7 @@ func connect() *gorm.DB {
 			TablePrefix:   woodlsy.Configs.Databases.Prefix, // table name prefix, table for `User` would be `t_users`
 			SingularTable: true,                             // use singular table name, table for `User` would be `user` with this option enabled
 			//NoLowerCase:   true,                              // skip the snake_casing of names
-			//NameReplacer: strings.NewReplacer("CID", "Cid"), // use name replacer to change struct/field name before convert it to db name
+			//NameReplacer: strings.NewReplacer("CID", "Cid"), // use name replacer to change struct/field name before convert it to Db name
 		},
 		Logger: dbLogger,
 	})
