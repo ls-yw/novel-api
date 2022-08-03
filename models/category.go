@@ -3,26 +3,26 @@ package models
 type Category struct {
 	Model
 	Name        string `json:"name"`
-	ParentId    uint   `json:"parent_id"`
-	SeoName     string `json:"seo_name"`
-	Keyword     string `json:"keyword"`
-	Description string `json:"description"`
-	Sort        uint16 `json:"sort"`
+	ParentId    uint   `json:"parent_id,omitempty"`
+	SeoName     string `json:"seo_name,omitempty"`
+	Keyword     string `json:"keyword,omitempty"`
+	Description string `json:"description,omitempty"`
+	Sort        uint16 `json:"sort,omitempty"`
 }
 
-func (m Category) GetOne(where map[string]interface{}, orderBy string) (info Category) {
-	GetOne(&info, where, orderBy)
+func (m Category) GetOne(where map[string]interface{}, orderBy string, fields string) (info Category) {
+	getOne(&info, where, orderBy, fields)
 	return
 }
 
-func (m Category) GetList(where map[string]interface{}, orderBy string, offset int, limit int) []Category {
+func (m Category) GetList(where map[string]interface{}, orderBy string, offset int, limit int, fields string) []Category {
 	list := make([]Category, 0)
-	GetList(&list, where, orderBy, offset, limit)
+	getList(&list, where, orderBy, offset, limit, fields)
 	return list
 }
 
-func (m Category) GetAll(where map[string]interface{}, orderBy string) []Category {
+func (m Category) GetAll(where map[string]interface{}, orderBy string, fields string) []Category {
 	list := make([]Category, 0)
-	GetAll(&list, where, orderBy)
+	getAll(&list, where, orderBy, fields)
 	return list
 }

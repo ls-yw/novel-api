@@ -1,13 +1,13 @@
 package servers
 
-import (
-	"fmt"
-	"novel/models"
-)
+import "novel/models"
 
-func GetOne() models.Category {
-	a := models.Category{}
-	b := a.GetOne(map[string]interface{}{"id": 88}, "id asc")
-	fmt.Printf("%+v", b)
-	return a
+//
+// GetCategoryAll
+// @Description: 获取所有分类
+// @return []models.Category
+//
+func GetCategoryAll() []models.Category {
+	fields := "id,name"
+	return models.Category{}.GetAll(map[string]interface{}{}, "id asc", fields)
 }

@@ -7,20 +7,18 @@ import (
 	"novel/utils/errors"
 )
 
-type Category struct {
+type Book struct {
 	basic.Controller
 }
 
 //
-// All
-// @Description: 所有分类
-// @receiver ca
+// GetBookListByWeekClick
+// @Description: 首页周排行榜
+// @receiver b
 // @param c
 //
-func (ca Category) All(c *gin.Context) {
-	category := servers.GetCategoryAll()
-
+func (b Book) GetBookListByWeekClick(c *gin.Context) {
 	data := make(errors.Data)
-	data["data"] = category
+	data["data"] = servers.GetBookListByWeekClick()
 	errors.Success.ReturnJson(c, data)
 }

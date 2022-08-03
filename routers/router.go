@@ -13,8 +13,10 @@ func Create() *gin.Engine {
 	router.Use(log.GinLogger())
 
 	router.Use(middleware.GinRecovery(true))
+	router.Use(middleware.Cors())
 
 	router.GET("/category", controllers.Category{}.All)
+	router.GET("/bookIndex", controllers.Book{}.GetBookListByWeekClick)
 
 	return router
 }
