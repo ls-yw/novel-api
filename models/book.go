@@ -41,3 +41,7 @@ func (m Book) GetAll(where map[string]interface{}, orderBy string, fields string
 	getAll(&list, where, orderBy, fields)
 	return list
 }
+
+func (m Book) GetCount(where map[string]interface{}) int64 {
+	return getCount(m, where)
+}

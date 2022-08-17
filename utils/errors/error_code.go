@@ -10,7 +10,8 @@ var (
 	SuccessSms    = &Error{0, "发送成功"}
 	SuccessCustom = &Error{0, "自定义成功提示"}
 
-	NoLogin = &Error{101, "未登录"}
+	ErrorCustom = &Error{1, "自定义错误提示"}
+	NoLogin     = &Error{101, "未登录"}
 
 	// 其他系统错误
 	System         = &Error{500, "系统错误，请联系管理员"}
