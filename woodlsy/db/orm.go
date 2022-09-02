@@ -1,6 +1,8 @@
 package db
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Orm struct {
 }
@@ -20,4 +22,13 @@ func OrmInit() {
 
 func (Orm) Model(value interface{}) *gorm.DB {
 	return db.Model(value)
+}
+
+func (Orm) Insert(value interface{}) *gorm.DB {
+	return db.Create(value)
+}
+
+func (Orm) Update(value interface{}, data map[string]interface{}, where map[string]interface{}) int64 {
+	result := db.Model(value).Where(where).Updates(data)
+	return result.RowsAffected
 }

@@ -16,8 +16,8 @@ func (e *Error) ReturnJson(c *gin.Context, data ...map[string]interface{}) {
 	if len(data) > 0 {
 		returnJson = data[0]
 	}
-	returnJson["code"] = e.Code
-	returnJson["msg"] = e.Message
+	returnJson["Code"] = e.Code
+	returnJson["Message"] = e.Message
 
 	c.JSON(http.StatusOK, returnJson)
 	panic(nil)

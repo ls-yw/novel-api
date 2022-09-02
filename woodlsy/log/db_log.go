@@ -92,18 +92,17 @@ func (l DbLogger) Trace(ctx context.Context, begin time.Time, fc func() (string,
 	//if l.LogLevel <= ormLogger.Silent {
 	//	return
 	//}
-
+	sql, rows := fc()
 	elapsed := time.Since(begin)
 	switch {
 	case err != nil && l.LogLevel >= ormLogger.Error && (!errors.Is(err, ormLogger.ErrRecordNotFound) || !l.IgnoreRecordNotFoundError):
-		sql, rows := fc()
+
 		if rows == -1 {
 			Logger.Errorf(l.traceErrStr, utils.FileWithLineNum(), err, float64(elapsed.Nanoseconds())/1e6, "-", sql)
 		} else {
 			Logger.Errorf(l.traceErrStr, utils.FileWithLineNum(), err, float64(elapsed.Nanoseconds())/1e6, rows, sql)
 		}
 	case elapsed > l.SlowThreshold && l.SlowThreshold != 0 && l.LogLevel >= ormLogger.Warn:
-		sql, rows := fc()
 		slowLog := fmt.Sprintf("SLOW SQL >= %v", l.SlowThreshold)
 		if rows == -1 {
 			Logger.Warnf(l.traceWarnStr, utils.FileWithLineNum(), slowLog, float64(elapsed.Nanoseconds())/1e6, "-", sql)
@@ -111,7 +110,6 @@ func (l DbLogger) Trace(ctx context.Context, begin time.Time, fc func() (string,
 			Logger.Warnf(l.traceWarnStr, utils.FileWithLineNum(), slowLog, float64(elapsed.Nanoseconds())/1e6, rows, sql)
 		}
 	case woodlsy.Configs.App.PSql:
-		sql, rows := fc()
 		if rows == -1 {
 			Logger.Infof(l.traceStr, utils.FileWithLineNum(), float64(elapsed.Nanoseconds())/1e6, "-", sql)
 		} else {

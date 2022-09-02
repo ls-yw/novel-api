@@ -5,4 +5,5 @@ type Configs struct {
 	Log       Log       `json:"log"`
 	Redis     Redis     `json:"redis"`
 	App       App       `json:"app"`
+	Aliyun    Aliyun    `json:"aliyun"`
 }

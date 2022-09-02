@@ -4,12 +4,13 @@ import (
 	"gorm.io/gorm"
 	"novel/utils/common"
 	"novel/woodlsy/db"
+	"novel/woodlsy/log"
 	"reflect"
 	"strings"
 )
 
 type Model struct {
-	ID        uint   `gorm:"primarykey" json:"id,omitempty"`
+	Id        uint   `gorm:"primarykey" json:"id,omitempty"`
 	CreatedAt string `json:"created_at,omitempty"`
 	UpdatedAt string `json:"updated_at,omitempty"`
 	CreatedBy uint   `json:"created_by,omitempty"`
@@ -113,12 +114,16 @@ func sqlCondition(m interface{}, where map[string]interface{}, orderBy string, o
 	return o
 }
 
-func Update() {
-
+func update(m interface{}, data map[string]interface{}, where map[string]interface{}) int64 {
+	return Orm.Update(m, data, where)
 }
 
-func Insert() {
-
+func insert(m interface{}) {
+	result := Orm.Insert(m)
+	result.Debug()
+	if result.Error != nil || result.RowsAffected == 0 {
+		log.Logger.Error("新增记录失败", m, result.Error)
+	}
 }
 
 //

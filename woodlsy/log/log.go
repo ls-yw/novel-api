@@ -30,7 +30,7 @@ func LogInit() {
 			zapcore.NewConsoleEncoder(encoder),
 			file,
 			zapcore.DebugLevel,
-		), // 写入文件
+		),                                                                     // 写入文件
 		zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), stdoutLevel), // 写入控制台
 	)
 

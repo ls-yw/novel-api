@@ -1,7 +1,8 @@
 package config
 
 type App struct {
-	AppName string
-	PSql    bool
-	Debug   bool
+	AppName   string `json:"appName,omitempty"`
+	PSql      bool   `json:"PSql,omitempty"`
+	Debug     bool   `json:"debug,omitempty"`
+	JwtSecret string `json:"jwtSecret,omitempty"`
 }

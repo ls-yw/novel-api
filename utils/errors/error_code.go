@@ -10,8 +10,9 @@ var (
 	SuccessSms    = &Error{0, "发送成功"}
 	SuccessCustom = &Error{0, "自定义成功提示"}
 
-	ErrorCustom = &Error{1, "自定义错误提示"}
-	NoLogin     = &Error{101, "未登录"}
+	ErrorCustom  = &Error{1, "自定义错误提示"}
+	NoLogin      = &Error{101, "未登录"}
+	InvalidLogin = &Error{102, "登录已失效，请重新登录"}
 
 	// 其他系统错误
 	System         = &Error{500, "系统错误，请联系管理员"}
@@ -21,9 +22,9 @@ var (
 	ParamsFailed          = &Error{1100, "参数错误"}
 	MobileFailed          = &Error{1101, "手机号错误"}
 	CreateTokenFailed     = &Error{1102, "token生成失败"}
-	RealNameFailed        = &Error{1103, "姓名不能为空"}
-	RolesFailed           = &Error{1104, "请选择角色"}
-	EmptyName             = &Error{1105, "名称不能为空"}
+	RePasswordFailed      = &Error{1103, "两次密码不一致"}
+	PasswordLengthFailed  = &Error{1104, "密码最小为6位"}
+	UsernameFailed        = &Error{1105, "用户名只能是英文和符号“_-”，且长度在6-12位"}
 	EmptyRegion           = &Error{1105, "请选择地区"}
 	EmptyThumbImg         = &Error{1105, "缩略图不能为空"}
 	EmptyMenus            = &Error{1106, "请选择权限菜单"}
@@ -39,25 +40,28 @@ var (
 	UploadFailed          = &Error{1133, "上传失败"}
 
 	// 操作错误 1200 - 1299
-	NoPermission         = &Error{1200, "暂无该权限"}
-	ChangeMerchantFailed = &Error{1201, "切换商户失败"}
-	SuperAdminNoDel      = &Error{1202, "超管账户不允许删除"}
-	SaveFailed           = &Error{1203, "保存失败"}
-	DeleteFailed         = &Error{1204, "删除失败"}
-	DataNoFound          = &Error{1205, "找不到数据"}
-	OperationFailed      = &Error{1206, "操作失败"}
-	AdminUserAlreadyBind = &Error{1207, "该会员已被绑定为管理员，不允许重复绑定"}
-	UserNoFound          = &Error{1208, "会员不存在"}
-	EmptyUserUnionid     = &Error{1209, "该用户缺少unionid，请先让用户登录一遍小程序再操作"}
-	ChangeFailed         = &Error{1210, "变更失败"}
-	MerchantNOImport     = &Error{1211, "该商户下不能导入"}
-	MerchantNODelete     = &Error{1212, "该商户下不可删除"}
+	RegisterFailed         = &Error{1200, "注册失败"}
+	MobileRegisterExists   = &Error{1201, "该手机号已注册"}
+	UsernameRegisterExists = &Error{1202, "该用户名已被注册"}
+	SaveFailed             = &Error{1203, "保存失败"}
+	DeleteFailed           = &Error{1204, "删除失败"}
+	DataNoFound            = &Error{1205, "找不到数据"}
+	OperationFailed        = &Error{1206, "操作失败"}
+	AdminUserAlreadyBind   = &Error{1207, "该会员已被绑定为管理员，不允许重复绑定"}
+	JWTParseFailed         = &Error{1208, "获取用户信息失败，请退出重新登录"}
+	LoginFailed            = &Error{1209, "登录失败"}
+	PasswordFailed         = &Error{1210, "密码错误"}
+	RegisterToLoginFailed  = &Error{1211, "注册成功但自动登录失败，请手动登录"}
+	UserExistsFailed       = &Error{1212, "用户不存在"}
 
 	// 短信错误 1300 - 1349
 	SmsSignName         = &Error{1300, "短信签名错误"}
 	SmsSendFailed       = &Error{1301, "短信发送失败"}
 	SmsCodeCancelFailed = &Error{1302, "短信发送失败"}
 	SmsCodeFailed       = &Error{1303, "短信验证码错误"}
+	SmsSaveCodeFailed   = &Error{1304, "短信验证码错误，请重新获取"}
+
+	ImgCodeFailed = &Error{1330, "图形验证码错误"}
 
 	// 业务错误 1350 - 1399
 	CreateAppletsQrcodeFailed = &Error{1350, "生成小程序码失败"}

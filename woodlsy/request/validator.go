@@ -27,9 +27,9 @@ func Validator(data interface{}) (err error) {
 	//	"gt": true,
 	//}
 	//
+
 	//rTyp := reflect.TypeOf(data)
 	rVal := reflect.ValueOf(data) // 获取reflect.Type类型
-
 	return verify(rVal)
 
 }
@@ -66,7 +66,7 @@ func verify(value reflect.Value) (err error) {
 					return errors.New(tag.Get("form") + "值不能为空")
 				}
 			} else {
-				if !compareVerify(value, verifyRuleArr[r]) {
+				if !compareVerify(value.Field(i), verifyRuleArr[r]) {
 					return errors.New(tag.Get("form") + "长度或值不在合法范围")
 				}
 			}
@@ -80,6 +80,7 @@ func verify(value reflect.Value) (err error) {
 //@param: value reflect.Value, VerifyStr string
 //@return: bool
 func compareVerify(value reflect.Value, VerifyStr string) bool {
+
 	switch value.Kind() {
 	case reflect.String, reflect.Slice, reflect.Array:
 		return compare(value.Len(), VerifyStr)
@@ -125,6 +126,7 @@ func isEmpty(value reflect.Value) bool {
 func compare(value interface{}, VerifyStr string) bool {
 	VerifyStrArr := strings.Split(VerifyStr, "=")
 	val := reflect.ValueOf(value)
+
 	switch val.Kind() {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		VInt, VErr := strconv.ParseInt(VerifyStrArr[1], 10, 64)
