@@ -47,7 +47,7 @@ var (
 	DeleteFailed           = &Error{1204, "删除失败"}
 	DataNoFound            = &Error{1205, "找不到数据"}
 	OperationFailed        = &Error{1206, "操作失败"}
-	AdminUserAlreadyBind   = &Error{1207, "该会员已被绑定为管理员，不允许重复绑定"}
+	AddUserBookFailed      = &Error{1207, "加入书架失败"}
 	JWTParseFailed         = &Error{1208, "获取用户信息失败，请退出重新登录"}
 	LoginFailed            = &Error{1209, "登录失败"}
 	PasswordFailed         = &Error{1210, "密码错误"}

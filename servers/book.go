@@ -67,3 +67,15 @@ func GetBookInfo(id uint) models.Book {
 	where := map[string]interface{}{"id": id}
 	return models.Book{}.GetOne(where, "id asc", "id,name,thumb_img,author,intro,is_finished,wordsnumber")
 }
+
+func GetApplyBookList(page int, size int, fields string) []models.BookApply {
+	offset := (page - 1) * size
+	where := map[string]interface{}{}
+
+	return models.BookApply{}.GetList(where, "id desc", offset, size, fields)
+}
+
+func GetApplyBookListCount() int64 {
+	where := map[string]interface{}{}
+	return models.BookApply{}.GetCount(where)
+}

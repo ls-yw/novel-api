@@ -32,3 +32,7 @@ func (Orm) Update(value interface{}, data map[string]interface{}, where map[stri
 	result := db.Model(value).Where(where).Updates(data)
 	return result.RowsAffected
 }
+func (Orm) Deleted(value interface{}, where map[string]interface{}) int64 {
+	result := db.Where(where).Delete(value)
+	return result.RowsAffected
+}

@@ -14,7 +14,7 @@ func Create() *gin.Engine {
 
 	router.Use(middleware.GinRecovery(true))
 	router.Use(middleware.Cors())
-	router.Use(middleware.Cors())
+	router.Use(middleware2.GetLogin())
 
 	router.GET("/category", controllers.Category{}.All)
 
@@ -32,6 +32,12 @@ func Create() *gin.Engine {
 
 	// member
 	router.GET("/member", middleware2.CheckLogin(), controllers.Member{}.LoginInfo)
+	router.GET("/member/book", middleware2.CheckLogin(), controllers.Member{}.Book)
+	router.POST("/member/book/del", middleware2.CheckLogin(), controllers.Member{}.DelBook)
+	router.POST("/member/book/add", middleware2.CheckLogin(), controllers.Member{}.AddBook)
+
+	router.POST("/apply", middleware2.CheckLogin(), controllers.Member{}.Apply)
+	router.GET("/apply/list", controllers.Member{}.ApplyList)
 
 	return router
 }

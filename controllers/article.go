@@ -20,7 +20,7 @@ type Article struct {
 // @param c
 //
 func (a Article) List(c *gin.Context) {
-	var params request.BookId
+	var params request.ArticleList
 	_ = c.ShouldBindQuery(&params)
 	if err := request2.Validator(params); err != nil {
 		resp := errors.ErrorCustom

@@ -125,11 +125,11 @@ func (l Login) Register(c *gin.Context) {
 	if uid == 0 {
 		errors.RegisterFailed.ReturnJson(c)
 	}
-	jwtToken := servers.Login(uid)
+	jwtToken := servers.Login(uid, c.ClientIP())
 	if jwtToken == "" {
 		errors.RegisterToLoginFailed.ReturnJson(c)
 	}
-	servers.UpdateUserByLogin(uid, c.ClientIP())
+
 	data := make(errors.Data)
 	data["data"] = jwtToken
 	errors.Success.ReturnJson(c, data)
@@ -156,7 +156,7 @@ func (l Login) Login(c *gin.Context) {
 	if !servers.VerifyPassword(params.Password, user) {
 		errors.PasswordFailed.ReturnJson(c)
 	}
-	jwtToken := servers.Login(user.Id)
+	jwtToken := servers.Login(user.Id, c.ClientIP())
 	if jwtToken == "" {
 		errors.LoginFailed.ReturnJson(c)
 	}

@@ -9,6 +9,21 @@ import (
 	"strings"
 )
 
+//
+//type LocalDate time.Time
+//
+//func (t *LocalDate) MarshalJSON() ([]byte, error) {
+//	tTime := time.Time(*t)
+//	return []byte(fmt.Sprintf("\"%v\"", tTime.Format("2006-01-02"))), nil
+//}
+//
+//type localDateTime time.Time
+//
+//func (t *localDateTime) MarshalJSON() ([]byte, error) {
+//	tTime := time.Time(*t)
+//	return []byte(fmt.Sprintf("\"%v\"", tTime.Format("2006-01-02 15:04:05"))), nil
+//}
+
 type Model struct {
 	Id        uint   `gorm:"primarykey" json:"id,omitempty"`
 	CreatedAt string `json:"created_at,omitempty"`
@@ -124,6 +139,10 @@ func insert(m interface{}) {
 	if result.Error != nil || result.RowsAffected == 0 {
 		log.Logger.Error("新增记录失败", m, result.Error)
 	}
+}
+
+func deleted(m interface{}, where map[string]interface{}) int64 {
+	return Orm.Deleted(m, where)
 }
 
 //

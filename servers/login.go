@@ -41,11 +41,15 @@ func Register(c *gin.Context, username string, mobile string, password string) u
 	return user.Insert()
 }
 
-func Login(uid uint) string {
+func Login(uid uint, ip string) string {
 	user := GetUserById(uid, "id,username")
 	token := common.Md5(user.Password)
 	redis.SetEx(redis.LoginToken+token, 86400*7, strconv.Itoa(int(user.Id)))
-	return common.CreateJwt(86400*7, map[string]interface{}{"token": token})
+	jwt := common.CreateJwt(86400*7, map[string]interface{}{"token": token})
+	if jwt != "" {
+		UpdateUserByLogin(uid, ip)
+	}
+	return jwt
 }
 
 //

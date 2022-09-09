@@ -6,6 +6,7 @@ import (
 	"novel/request"
 	"novel/servers"
 	"novel/utils/errors"
+	"novel/utils/global"
 	request2 "novel/woodlsy/request"
 )
 
@@ -71,5 +72,14 @@ func (b Book) Info(c *gin.Context) {
 	data := make(errors.Data)
 	data["data"] = servers.GetBookInfo(params.Id)
 	data["read"] = map[string]interface{}{"id": 0}
+	data["user"] = false
+	if global.Uid != 0 {
+		userBook := servers.GetUserBookByBookId(global.Uid, params.Id)
+		if userBook.Id != 0 {
+			data["user"] = true
+		}
+	}
+
+	// TODO 点击量
 	errors.Success.ReturnJson(c, data)
 }

@@ -1,6 +1,6 @@
 package request
 
-type BookId struct {
+type ArticleList struct {
 	Pages
 	BookId uint `form:"book_id" verify:"required"`
 }

@@ -1,12 +1,14 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"novel/basic"
-	"novel/utils/common"
+	"novel/request"
+	"novel/servers"
 	"novel/utils/errors"
-	"novel/utils/redis"
+	"novel/utils/global"
+	request2 "novel/woodlsy/request"
+	"time"
 )
 
 type Member struct {
@@ -14,18 +16,103 @@ type Member struct {
 }
 
 func (m Member) LoginInfo(c *gin.Context) {
-	token := c.Request.Header.Get("token")
-	jwtData, err := common.ParseJwt(token)
-	if err != nil {
-		errors.JWTParseFailed.ReturnJson(c)
+	member := servers.GetUserById(global.Uid, "id,username,last_ip,last_time")
+	lastTime, _ := time.Parse("2006-01-02T15:04:05+08:00", member.LastTime)
+	member.LastTime = lastTime.Format("2006-01-02 15:04:05")
+
+	data := make(errors.Data)
+	data["data"] = member
+	errors.Success.ReturnJson(c, data)
+}
+
+func (m Member) Book(c *gin.Context) {
+	var params request.Pages
+	_ = c.ShouldBindQuery(&params)
+	if err := request2.Validator(params); err != nil {
+		resp := errors.ErrorCustom
+		resp.Message = err.Error()
+		resp.ReturnJson(c)
 	}
-	redisKey := jwtData["token"]
-	if redisKey == nil {
-		errors.JWTParseFailed.ReturnJson(c)
+	if params.Page == 0 {
+		params.Page = 1
 	}
-	member := redis.Get(redisKey.(string))
-	if member == "" {
-		errors.InvalidLogin.ReturnJson(c)
+	if params.Size == 0 {
+		params.Size = 20
 	}
-	fmt.Println(member)
+
+	data := make(errors.Data)
+	data["list"] = servers.GetUserBookList(global.Uid, params.Page, params.Size)
+	data["totalCount"] = servers.GetUserBookListCount(global.Uid)
+
+	errors.Success.ReturnJson(c, data)
+}
+
+func (m Member) DelBook(c *gin.Context) {
+	var params request.Id
+	_ = c.ShouldBindJSON(&params)
+	if err := request2.Validator(params); err != nil {
+		resp := errors.ErrorCustom
+		resp.Message = err.Error()
+		resp.ReturnJson(c)
+	}
+	if params.Id == 0 {
+		errors.ParamsFailed.ReturnJson(c)
+	}
+	errors.DeleteFailed.ReturnJson(c)
+	row := servers.DelUserBook(global.Uid, params.Id, c)
+	if row == 0 {
+		errors.DeleteFailed.ReturnJson(c)
+	}
+	errors.Success.ReturnJson(c)
+}
+
+//
+// AddBook
+// @Description: 加入书架
+// @receiver m
+// @param c
+//
+func (m Member) AddBook(c *gin.Context) {
+	var params request.UserBookAdd
+	_ = c.ShouldBindJSON(&params)
+	if err := request2.Validator(params); err != nil {
+		resp := errors.ErrorCustom
+		resp.Message = err.Error()
+		resp.ReturnJson(c)
+	}
+	if params.BookId == 0 {
+		errors.ParamsFailed.ReturnJson(c)
+	}
+
+	row := servers.AddUserBook(global.Uid, params.BookId)
+	if !row {
+		errors.AddUserBookFailed.ReturnJson(c)
+	}
+	errors.Success.ReturnJson(c)
+}
+func (m Member) Apply(c *gin.Context) {
+
+}
+
+func (m Member) ApplyList(c *gin.Context) {
+	var params request.Pages
+	_ = c.ShouldBindQuery(&params)
+	if err := request2.Validator(params); err != nil {
+		resp := errors.ErrorCustom
+		resp.Message = err.Error()
+		resp.ReturnJson(c)
+	}
+	if params.Page == 0 {
+		params.Page = 1
+	}
+	if params.Size == 0 {
+		params.Size = 20
+	}
+
+	fields := "id,name,book_id,author,reply"
+	data := make(errors.Data)
+	data["list"] = servers.GetApplyBookList(params.Page, params.Size, fields)
+	data["totalCount"] = servers.GetApplyBookListCount()
+
+	errors.Success.ReturnJson(c, data)
 }

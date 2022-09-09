@@ -1,6 +1,8 @@
 package models
 
-import "novel/utils/common"
+import (
+	"novel/utils/common"
+)
 
 type User struct {
 	Model
