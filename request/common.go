@@ -6,5 +6,5 @@ type Pages struct {
 }
 
 type Id struct {
-	Id uint `form:"id" verify:"required"`
+	Id int `form:"id" verify:"required"`
 }

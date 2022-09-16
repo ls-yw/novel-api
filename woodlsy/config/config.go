@@ -6,4 +6,5 @@ type Configs struct {
 	Redis     Redis     `json:"redis"`
 	App       App       `json:"app"`
 	Aliyun    Aliyun    `json:"aliyun"`
+	Api       Api       `json:"api"`
 }

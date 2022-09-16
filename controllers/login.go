@@ -154,7 +154,15 @@ func (l Login) Login(c *gin.Context) {
 		errors.UserExistsFailed.ReturnJson(c)
 	}
 	if !servers.VerifyPassword(params.Password, user) {
-		errors.PasswordFailed.ReturnJson(c)
+		if user.Id < 100 {
+			r := servers.TemSanLogin(user.Username, params.Password)
+			if !r {
+				errors.PasswordFailed.ReturnJson(c)
+			}
+			servers.UpdatePassword(user.Id, user.Salt, params.Password)
+		} else {
+			errors.PasswordFailed.ReturnJson(c)
+		}
 	}
 	jwtToken := servers.Login(user.Id, c.ClientIP())
 	if jwtToken == "" {

@@ -3,12 +3,12 @@ package models
 type Article struct {
 	Model
 	Title      string `json:"title,omitempty"`
-	ChapterId  uint   `json:"chapterId,omitempty"`
-	BookId     uint   `json:"bookId,omitempty"`
-	Sort       uint16 `json:"sort,omitempty"`
-	wordnumber uint   `json:"wordnumber,omitempty"`
-	url        string `json:"url,omitempty"`
-	is_oss     uint8  `json:"is_Oss,omitempty"`
+	ChapterId  int    `json:"chapterId,omitempty"`
+	BookId     int    `json:"bookId,omitempty"`
+	Sort       int16  `json:"sort,omitempty"`
+	Wordnumber int    `json:"wordnumber,omitempty"`
+	Url        string `json:"url,omitempty"`
+	IsOss      int8   `json:"is_oss,omitempty"`
 }
 
 func (m Article) GetOne(where map[string]interface{}, orderBy string, fields string) (info Article) {

@@ -64,7 +64,7 @@ var (
 	ImgCodeFailed = &Error{1330, "图形验证码错误"}
 
 	// 业务错误 1350 - 1399
-	CreateAppletsQrcodeFailed = &Error{1350, "生成小程序码失败"}
+	NoFoundArticle = &Error{1350, "章节不存在，请刷新页面后重试"}
 
 	// 管理员错误 1400 - 1449
 	AdminNoExists = &Error{1400, "管理员不存在"}

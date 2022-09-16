@@ -34,3 +34,38 @@ func (a Article) List(c *gin.Context) {
 
 	errors.Success.ReturnJson(c, data)
 }
+
+func (a Article) Info(c *gin.Context) {
+	var params request.ArticleInfo
+	_ = c.ShouldBindQuery(&params)
+	if err := request2.Validator(params); err != nil {
+		resp := errors.ErrorCustom
+		resp.Message = err.Error()
+		resp.ReturnJson(c)
+	}
+
+	if params.Id == 0 {
+		params.Id = servers.GetFirstArticleIdByBook(params.BookId)
+	}
+
+	data := make(errors.Data)
+
+	if params.Id == 0 {
+		errors.NoFoundArticle.ReturnJson(c)
+	}
+
+	article := servers.GetArticleInfo(params.BookId, params.Id, "id,title,sort,is_oss")
+	if article.Id == 0 {
+		data["errorContent"] = "该章节不存在"
+	} else if article.IsOss == 0 {
+		data["errorContent"] = "章节内容暂未上传"
+	} else {
+		data["content"] = servers.GetArticleContent(params.BookId, article.Id)
+	}
+
+	data["article"] = article
+	data["prevId"] = servers.GetArticlePrev(params.BookId, article.Sort)
+	data["nextId"] = servers.GetArticleNext(params.BookId, article.Sort)
+
+	errors.Success.ReturnJson(c, data)
+}

@@ -25,7 +25,7 @@ func GetBookListByWeekClick() []models.Book {
 // @param fields
 // @return []models.Book
 //
-func GetBookList(categoryId uint, keyword string, page int, size int, fields string) []models.Book {
+func GetBookList(categoryId int, keyword string, page int, size int, fields string) []models.Book {
 	offset := (page - 1) * size
 	where := map[string]interface{}{}
 	if categoryId != 0 {
@@ -45,7 +45,7 @@ func GetBookList(categoryId uint, keyword string, page int, size int, fields str
 // @param keyword
 // @return int64
 //
-func GetBookListCount(categoryId uint, keyword string) int64 {
+func GetBookListCount(categoryId int, keyword string) int64 {
 	where := map[string]interface{}{}
 	if categoryId != 0 {
 		where["category"] = categoryId
@@ -63,16 +63,19 @@ func GetBookListCount(categoryId uint, keyword string) int64 {
 // @param id
 // @return models.Book
 //
-func GetBookInfo(id uint) models.Book {
+func GetBookInfo(id int) models.Book {
 	where := map[string]interface{}{"id": id}
 	return models.Book{}.GetOne(where, "id asc", "id,name,thumb_img,author,intro,is_finished,wordsnumber")
 }
 
-func GetApplyBookList(page int, size int, fields string) []models.BookApply {
+func GetApplyBookList(page int, size int) []models.ReturnApplyList {
 	offset := (page - 1) * size
-	where := map[string]interface{}{}
-
-	return models.BookApply{}.GetList(where, "id desc", offset, size, fields)
+	list := models.BookApply{}.GetApplyList(offset, size)
+	for i := 0; i < len(list); i++ {
+		username := []rune(list[i].User__username)
+		list[i].User__username = common.Join("", string(username[0:2]), "***", string(username[len(username)-2:]))
+	}
+	return list
 }
 
 func GetApplyBookListCount() int64 {

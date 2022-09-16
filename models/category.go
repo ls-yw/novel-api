@@ -3,11 +3,11 @@ package models
 type Category struct {
 	Model
 	Name        string `json:"name"`
-	ParentId    uint   `json:"parent_id,omitempty"`
+	ParentId    int    `json:"parent_id,omitempty"`
 	SeoName     string `json:"seo_name,omitempty"`
 	Keyword     string `json:"keyword,omitempty"`
 	Description string `json:"description,omitempty"`
-	Sort        uint16 `json:"sort,omitempty"`
+	Sort        int16  `json:"sort,omitempty"`
 }
 
 func (m Category) GetOne(where map[string]interface{}, orderBy string, fields string) (info Category) {

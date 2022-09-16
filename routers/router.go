@@ -23,6 +23,7 @@ func Create() *gin.Engine {
 	router.GET("/book", controllers.Book{}.Info)
 
 	router.GET("/articles", controllers.Article{}.List)
+	router.GET("/article", controllers.Article{}.Info)
 
 	// login
 	router.GET("/yzm", controllers.Login{}.Yzm)
@@ -35,6 +36,7 @@ func Create() *gin.Engine {
 	router.GET("/member/book", middleware2.CheckLogin(), controllers.Member{}.Book)
 	router.POST("/member/book/del", middleware2.CheckLogin(), controllers.Member{}.DelBook)
 	router.POST("/member/book/add", middleware2.CheckLogin(), controllers.Member{}.AddBook)
+	router.POST("/article/read", middleware2.CheckLogin(), controllers.Member{}.Read)
 
 	router.POST("/apply", middleware2.CheckLogin(), controllers.Member{}.Apply)
 	router.GET("/apply/list", controllers.Member{}.ApplyList)

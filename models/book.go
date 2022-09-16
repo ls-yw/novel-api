@@ -3,26 +3,26 @@ package models
 type Book struct {
 	Model
 	Name              string `json:"name"`
-	Category          uint   `json:"category,omitempty"`
+	Category          int    `json:"category,omitempty"`
 	Author            string `json:"author,omitempty"`
 	Intro             string `json:"intro,omitempty"`
 	ThumbImg          string `json:"thumb_img,omitempty"`
-	Click             uint   `json:"click,omitempty"`
-	Monthclick        uint16 `json:"monthclick,omitempty"`
-	Weekclick         uint16 `json:"weekclick,omitempty"`
-	Dayclick          uint16 `json:"dayclick,omitempty"`
-	Recommend         uint   `json:"recommend,omitempty"`
-	Coll              uint16 `json:"coll,omitempty"`
-	IsFinished        uint8  `json:"is_finished,omitempty"`
-	Articlenum        uint8  `json:"articlenum,omitempty"`
-	Wordsnumber       uint   `json:"wordsnumber,omitempty"`
-	CollectId         uint   `json:"collect_id,omitempty"`
+	Click             int    `json:"click,omitempty"`
+	Monthclick        int16  `json:"monthclick,omitempty"`
+	Weekclick         int16  `json:"weekclick,omitempty"`
+	Dayclick          int16  `json:"dayclick,omitempty"`
+	Recommend         int    `json:"recommend,omitempty"`
+	Coll              int16  `json:"coll,omitempty"`
+	IsFinished        int8   `json:"is_finished,omitempty"`
+	Articlenum        int8   `json:"articlenum,omitempty"`
+	Wordsnumber       int    `json:"wordsnumber,omitempty"`
+	CollectId         int    `json:"collect_id,omitempty"`
 	FromCollectBookId string `json:"from_collect_book_id,omitempty"`
-	IsCollect         uint8  `json:"is_collect,omitempty"`
+	IsCollect         int8   `json:"is_collect,omitempty"`
 	LastCollectAt     string `json:"last_collect_at,omitempty"`
 	LastAt            string `json:"last_at,omitempty"`
-	IsRecommend       uint8  `json:"is_recommend,omitempty"`
-	Quality           uint8  `json:"quality,omitempty"`
+	IsRecommend       int8   `json:"is_recommend,omitempty"`
+	Quality           int8   `json:"quality,omitempty"`
 }
 
 func (m Book) GetOne(where map[string]interface{}, orderBy string, fields string) (info Book) {

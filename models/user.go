@@ -12,8 +12,8 @@ type User struct {
 	Salt     string `json:"salt,omitempty"`
 	LastIp   string `json:"last_ip,omitempty"`
 	LastTime string `json:"last_time,omitempty"`
-	Count    uint16 `json:"count,omitempty"`
-	IsVip    uint8  `json:"is_vip,omitempty"`
+	Count    int16  `json:"count,omitempty"`
+	IsVip    int8   `json:"is_vip,omitempty"`
 }
 
 func (m User) GetOne(where map[string]interface{}, orderBy string, fields string) (info User) {
@@ -37,7 +37,7 @@ func (m User) GetCount(where map[string]interface{}) int64 {
 	return getCount(m, where)
 }
 
-func (m User) Insert() uint {
+func (m User) Insert() int {
 	if m.CreatedAt == "" {
 		m.CreatedAt = common.Now()
 		m.UpdatedAt = m.CreatedAt

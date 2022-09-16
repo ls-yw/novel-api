@@ -90,8 +90,32 @@ func (m Member) AddBook(c *gin.Context) {
 	}
 	errors.Success.ReturnJson(c)
 }
-func (m Member) Apply(c *gin.Context) {
 
+//
+// Apply
+// @Description:申请收录
+// @receiver m
+// @param c
+//
+func (m Member) Apply(c *gin.Context) {
+	var params request.ApplyBook
+	_ = c.ShouldBindJSON(&params)
+	if err := request2.Validator(params); err != nil {
+		resp := errors.ErrorCustom
+		resp.Message = err.Error()
+		resp.ReturnJson(c)
+	}
+	if params.Name == "" {
+		errors.ParamsFailed.ReturnJson(c)
+	}
+	if params.Author == "" {
+		errors.ParamsFailed.ReturnJson(c)
+	}
+	row := servers.ApplyBook(global.Uid, params.Name, params.Author)
+	if row == 0 {
+		errors.SaveFailed.ReturnJson(c)
+	}
+	errors.Success.ReturnJson(c)
 }
 
 func (m Member) ApplyList(c *gin.Context) {
@@ -109,10 +133,27 @@ func (m Member) ApplyList(c *gin.Context) {
 		params.Size = 20
 	}
 
-	fields := "id,name,book_id,author,reply"
+	//fields := "id,name,book_id,author,reply"
 	data := make(errors.Data)
-	data["list"] = servers.GetApplyBookList(params.Page, params.Size, fields)
+	data["list"] = servers.GetApplyBookList(params.Page, params.Size)
 	data["totalCount"] = servers.GetApplyBookListCount()
 
 	errors.Success.ReturnJson(c, data)
+}
+
+func (m Member) Read(c *gin.Context) {
+	var params request.ArticleInfo
+	_ = c.ShouldBindJSON(&params)
+	if err := request2.Validator(params); err != nil {
+		resp := errors.ErrorCustom
+		resp.Message = err.Error()
+		resp.ReturnJson(c)
+	}
+
+	if params.Id == 0 || params.BookId == 0 {
+		errors.ParamsFailed.ReturnJson(c)
+	}
+
+	servers.UpdateUserBook(global.Uid, params.BookId, params.Id)
+	errors.Success.ReturnJson(c)
 }

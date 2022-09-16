@@ -1,8 +1,10 @@
 package common
 
 import (
+	"bytes"
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"math/rand"
 	"strings"
 	"time"
@@ -71,4 +73,18 @@ func Md5(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+//
+// JsonEncode
+// @Description: json编码数据
+// @param data
+// @return string
+//
+func JsonEncode(data interface{}) string {
+	buffer := &bytes.Buffer{}
+	encode := json.NewEncoder(buffer)
+	encode.SetEscapeHTML(false)
+	_ = encode.Encode(data)
+	return string(buffer.Bytes())
 }

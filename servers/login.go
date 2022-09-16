@@ -1,11 +1,17 @@
 package servers
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
+	"net/http"
 	"novel/models"
 	"novel/utils/common"
 	"novel/utils/errors"
 	"novel/utils/redis"
+	"novel/woodlsy"
 	"strconv"
 )
 
@@ -15,9 +21,9 @@ import (
 // @param username
 // @param mobile
 // @param password
-// @return uint
+// @return int
 //
-func Register(c *gin.Context, username string, mobile string, password string) uint {
+func Register(c *gin.Context, username string, mobile string, password string) int {
 	salt := common.RandString(8, 7)
 
 	userByMobile := GetUserByMobile(mobile, "id")
@@ -41,7 +47,7 @@ func Register(c *gin.Context, username string, mobile string, password string) u
 	return user.Insert()
 }
 
-func Login(uid uint, ip string) string {
+func Login(uid int, ip string) string {
 	user := GetUserById(uid, "id,username")
 	token := common.Md5(user.Password)
 	redis.SetEx(redis.LoginToken+token, 86400*7, strconv.Itoa(int(user.Id)))
@@ -65,4 +71,32 @@ func VerifyPassword(password string, user models.User) bool {
 
 func encryptPassword(password string, salt string) string {
 	return common.Md5(salt + common.Md5(password))
+}
+
+type TempResponse struct {
+	Code int    `json:"code,omitempty"`
+	Msg  string `json:"msg,omitempty"`
+}
+
+func TemSanLogin(username string, password string) bool {
+
+	fmt.Println("进入api登录")
+
+	req := `{"code":"!&87WIs!#dxoiM@^", "username": "` + username + `","password":"` + password + `"}`
+	req_new := bytes.NewBuffer([]byte(req))
+
+	url := woodlsy.Configs.Api.Login + "/member/sanLogin"
+	response, err := http.Post(url, "application/json; charset=utf-8", req_new)
+	if err != nil || response.StatusCode != http.StatusOK {
+		return false
+	}
+	res, _ := ioutil.ReadAll(response.Body)
+	fmt.Printf("%+v ======\n", string(res))
+	var result TempResponse
+	json.Unmarshal(res, &result)
+	if result.Code == 0 {
+		return true
+	} else {
+		return false
+	}
 }

@@ -36,3 +36,11 @@ func (Orm) Deleted(value interface{}, where map[string]interface{}) int64 {
 	result := db.Where(where).Delete(value)
 	return result.RowsAffected
 }
+
+func (Orm) Where(query interface{}, args ...interface{}) *gorm.DB {
+	return db.Where(query, args...)
+}
+
+func (Orm) Select(query interface{}, args ...interface{}) *gorm.DB {
+	return db.Select(query, args...)
+}

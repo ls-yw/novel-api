@@ -25,11 +25,11 @@ import (
 //}
 
 type Model struct {
-	Id        uint   `gorm:"primarykey" json:"id,omitempty"`
+	Id        int    `gorm:"primarykey" json:"id,omitempty"`
 	CreatedAt string `json:"created_at,omitempty"`
 	UpdatedAt string `json:"updated_at,omitempty"`
-	CreatedBy uint   `json:"created_by,omitempty"`
-	UpdatedBy uint   `json:"updated_by,omitempty"`
+	CreatedBy int    `json:"created_by,omitempty"`
+	UpdatedBy int    `json:"updated_by,omitempty"`
 }
 
 var Orm db.Orm

@@ -1,3 +1,3 @@
 package global
 
-var Uid uint
+var Uid int

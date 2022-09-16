@@ -13,6 +13,8 @@ import (
 
 func GetLogin() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		global.Uid = 0
+
 		token := c.Request.Header.Get("token")
 		tokenArr := strings.Split(token, ".")
 
@@ -35,8 +37,7 @@ func GetLogin() gin.HandlerFunc {
 			c.Next()
 			return
 		}
-		mid, _ := strconv.ParseUint(memberId, 10, 64)
-		global.Uid = uint(mid)
+		global.Uid, _ = strconv.Atoi(memberId)
 		c.Next()
 	}
 }
