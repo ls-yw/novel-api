@@ -1,6 +1,7 @@
 package servers
 
 import (
+	"fmt"
 	"novel/models"
 	"novel/utils/http"
 	"novel/utils/redis"
@@ -67,7 +68,7 @@ func GetArticleNext(bookId int, sort int16) int {
 }
 
 func GetArticleContent(bookId int, articleId int) string {
-	redisKey := redis.ArticleContent
+	redisKey := fmt.Sprintf("%s_%d_%d", redis.ArticleContent, bookId, articleId)
 	if !redis.Exists(redisKey) {
 		content := http.OssGetObject(bookId, articleId)
 		if content == "" {

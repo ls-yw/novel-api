@@ -17,6 +17,7 @@ func Create() *gin.Engine {
 	router.Use(middleware2.GetLogin())
 
 	router.GET("/category", controllers.Category{}.All)
+	router.GET("/category/info", controllers.Category{}.Info)
 
 	router.GET("/bookIndex", controllers.Book{}.GetBookListByWeekClick)
 	router.GET("/book/list", controllers.Book{}.List)
@@ -40,6 +41,8 @@ func Create() *gin.Engine {
 
 	router.POST("/apply", middleware2.CheckLogin(), controllers.Member{}.Apply)
 	router.GET("/apply/list", controllers.Member{}.ApplyList)
+
+	router.GET("/config", controllers.Config{}.Index)
 
 	return router
 }

@@ -20,9 +20,9 @@ func main() {
 	db.OrmInit()
 
 	novel := &http.Server{
-		Addr:    ":8888",
+		Addr:    ":7001",
 		Handler: routers.Create(),
 	}
-	fmt.Println("Listen http://127.0.0.1:8888")
+	fmt.Println("Listen http://127.0.0.1:7001")
 	novel.ListenAndServe()
 }
