@@ -48,6 +48,7 @@ func GetUserBookList(uid int, page int, size int) []models.UserBookList {
 		lastArticle := GetLastArticle(value.BookId, "title")
 		list[key].NewTitle = lastArticle.Title
 	}
+	return list
 }
 
 func GetUserBookListCount(uid int) int64 {
