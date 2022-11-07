@@ -45,7 +45,7 @@ var Orm db.Orm
 //
 func getOne(m interface{}, where map[string]interface{}, orderBy string, fields string) (int64, error) {
 	o := sqlCondition(m, where, orderBy, 0, 0, fields)
-	result := o.Order(orderBy).Find(&m)
+	result := o.Order(orderBy).Limit(1).Find(&m)
 	return result.RowsAffected, result.Error
 }
 
