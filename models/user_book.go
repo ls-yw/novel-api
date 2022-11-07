@@ -63,10 +63,10 @@ func (m UserBook) Delete(where map[string]interface{}) int64 {
 func (m UserBook) GetBookList(uid int, offset int, limit int) []UserBookList {
 	result := make([]UserBookList, 0)
 	Orm.Model(m).
-		Select("nl_user_book.id,nl_user_book.book_id,nl_user_book.article_id,nl_book.name,nl_book.thumb_img,nl_article.title,t4.title as new_title").
+		Select("nl_user_book.id,nl_user_book.book_id,nl_user_book.article_id,nl_book.name,nl_book.thumb_img").
 		Joins("left join nl_book on nl_book.id=nl_user_book.book_id").
-		Joins("left join nl_article on nl_article.id=nl_user_book.article_id").
-		Joins("left join nl_article as t4 on t4.book_id=nl_user_book.book_id and t4.sort = (select max(sort) from nl_article where book_id = nl_user_book.book_id)").
+		//Joins("left join nl_article on nl_article.id=nl_user_book.article_id").
+		//Joins("left join nl_article as t4 on t4.book_id=nl_user_book.book_id and t4.sort = (select max(sort) from nl_article where book_id = nl_user_book.book_id)").
 		Where("nl_user_book.uid", uid).
 		Order("nl_user_book.updated_at desc").
 		Offset(offset).Limit(limit).Scan(&result)
@@ -75,13 +75,7 @@ func (m UserBook) GetBookList(uid int, offset int, limit int) []UserBookList {
 
 func (m UserBook) GetBookListCount(uid int) int64 {
 	var count int64
-	Orm.Model(m).
-		Select("nl_user_book.id,nl_user_book.article_id,nl_book.name,nl_book.thumb_img,nl_article.title,t4.title as new_title").
-		Joins("left join nl_book on nl_book.id=nl_user_book.book_id").
-		Joins("left join nl_article on nl_article.id=nl_user_book.article_id").
-		Joins("left join nl_article as t4 on t4.book_id=nl_user_book.book_id and t4.sort = (select max(sort) from nl_article where book_id = nl_user_book.book_id)").
-		Where("nl_user_book.uid", uid).
-		Order("nl_user_book.updated_at desc").Count(&count)
+	Orm.Model(m).Where("nl_user_book.uid", uid).Count(&count)
 
 	return count
 }

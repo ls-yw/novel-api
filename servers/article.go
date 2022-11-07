@@ -47,6 +47,17 @@ func GetFirstArticleIdByBook(bookId int) int {
 }
 
 //
+// GetLastArticle
+// @Description: 获取最后一张章节
+// @param bookId
+// @param fields
+// @return models.Article
+//
+func GetLastArticle(bookId int, fields string) models.Article {
+	return models.Article{}.GetOne(map[string]interface{}{"book_id": bookId}, "sort desc", fields)
+}
+
+//
 // GetArticleInfo
 // @Description: 获取章节详情
 // @param bookId

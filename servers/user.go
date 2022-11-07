@@ -29,9 +29,25 @@ func UpdateUserByLogin(uid int, ip string) {
 	models.User{}.Update(data, map[string]interface{}{"id": uid})
 }
 
+//
+// GetUserBookList
+// @Description: 获取书架列表
+// @param uid
+// @param page
+// @param size
+// @return []models.UserBookList
+//
 func GetUserBookList(uid int, page int, size int) []models.UserBookList {
 	offset := (page - 1) * size
-	return models.UserBook{}.GetBookList(uid, offset, size)
+	list := models.UserBook{}.GetBookList(uid, offset, size)
+	for key, value := range list {
+		if value.ArticleId != 0 {
+			article := GetArticleInfo(value.BookId, value.ArticleId, "title")
+			list[key].Title = article.Title
+		}
+		lastArticle := GetLastArticle(value.BookId, "title")
+		list[key].NewTitle = lastArticle.Title
+	}
 }
 
 func GetUserBookListCount(uid int) int64 {
