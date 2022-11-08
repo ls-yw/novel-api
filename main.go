@@ -1,22 +1,20 @@
 package main
 
 import (
-	"novel/woodlsy/core"
-	"novel/woodlsy/db"
-	"novel/woodlsy/log"
-)
-
-import (
 	"fmt"
+	"github.com/woodlsy/woodGin/config"
+	"github.com/woodlsy/woodGin/db"
+	"github.com/woodlsy/woodGin/log"
+	"github.com/woodlsy/woodGin/redis"
 	"net/http"
-	"novel/routers"
+	"novel/app/routers"
 )
 
 func main() {
 
-	core.ConfigInit()
-	log.LogInit()
-	core.RedisInit()
+	config.Enabled()
+	log.Enabled()
+	redis.Enabled()
 	db.OrmInit()
 
 	novel := &http.Server{
