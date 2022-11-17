@@ -20,7 +20,7 @@ func GetArticleList(bookId int, page int, size int, fields string) []models.Arti
 	offset := (page - 1) * size
 	where := map[string]interface{}{}
 	where["book_id"] = bookId
-	return models.Article{}.GetList(where, "id asc", offset, size, fields)
+	return models.Article{}.GetList(where, "sort asc", offset, size, fields)
 }
 
 //
