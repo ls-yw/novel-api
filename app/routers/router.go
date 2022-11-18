@@ -2,7 +2,6 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/woodlsy/woodGin/log"
 	"github.com/woodlsy/woodGin/middleware"
 	controllers2 "novel/app/controllers"
 	middleware2 "novel/app/utils/middleware"
@@ -11,7 +10,7 @@ import (
 func Create() *gin.Engine {
 	router := gin.New()
 
-	router.Use(log.GinLogger())
+	//router.Use(log.GinLogger())
 
 	router.Use(middleware.GinRecovery(true))
 	router.Use(middleware.Cors())

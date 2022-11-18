@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/woodlsy/woodGin/log"
 	request2 "github.com/woodlsy/woodGin/request"
 	"novel/app/data/struct/request"
 	"novel/app/servers"
@@ -20,12 +19,6 @@ type Category struct {
 //
 func (ca Category) All(c *gin.Context) {
 	category := servers.GetCategoryAll()
-
-	log.Logger.Error("我是error")
-	log.Logger.Info("我是ingo")
-	log.Logger.Warn("warn")
-	log.Logger.Debug("debug")
-	errors.Success.ReturnJson(c)
 
 	data := make(errors.Data)
 	data["data"] = category
