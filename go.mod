@@ -12,7 +12,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/mojocn/base64Captcha v1.3.5
 	github.com/spf13/afero v1.9.0 // indirect
-	github.com/woodlsy/woodGin v0.0.0-20221107082714-080e1b0f9873
+	github.com/woodlsy/woodGin v0.1.0
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90 // indirect
