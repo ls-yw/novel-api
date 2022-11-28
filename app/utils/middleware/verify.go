@@ -11,7 +11,7 @@ import (
 
 func VerifyTime() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		global.Uid = 0
+		global.Platform = c.Request.Header.Get("Platform")
 
 		timestamp := c.Request.Header.Get("timestamp")
 

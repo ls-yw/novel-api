@@ -43,7 +43,5 @@ func Create() *gin.Engine {
 	router.POST("/apply", middleware2.CheckLogin(), controllers2.Member{}.Apply)
 	router.GET("/apply/list", controllers2.Member{}.ApplyList)
 
-	router.GET("/config", controllers2.Config{}.Index)
-
 	return router
 }
