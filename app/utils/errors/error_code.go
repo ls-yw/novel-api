@@ -11,6 +11,7 @@ var (
 	SuccessCustom = &Error{0, "自定义成功提示"}
 
 	ErrorCustom  = &Error{1, "自定义错误提示"}
+	Invalid      = &Error{2, "Invalid"}
 	NoLogin      = &Error{101, "未登录"}
 	InvalidLogin = &Error{102, "登录已失效，请重新登录"}
 

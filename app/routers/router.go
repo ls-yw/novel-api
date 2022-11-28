@@ -13,7 +13,8 @@ func Create() *gin.Engine {
 	//router.Use(log.GinLogger())
 
 	router.Use(middleware.GinRecovery(true))
-	router.Use(middleware.Cors())
+	router.Use(middleware.Cors(map[string]string{"Access-Control-Allow-Headers": "Content-Type,Token,Timestamp,Sign,Platform"}))
+	router.Use(middleware2.VerifyTime())
 	router.Use(middleware2.GetLogin())
 
 	router.GET("/category", controllers2.Category{}.All)

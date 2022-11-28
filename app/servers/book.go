@@ -1,6 +1,7 @@
 package servers
 
 import (
+	"novel/app/data/global"
 	"novel/app/models"
 	"novel/app/utils/common"
 )
@@ -34,6 +35,8 @@ func GetBookList(categoryId int, keyword string, page int, size int, fields stri
 	if len(keyword) > 0 {
 		where["name"] = []interface{}{"like", common.Join("", "%%", keyword, "%%")}
 		where["or"] = map[string]interface{}{"author": []interface{}{"like", common.Join("", "%%", keyword, "%%")}}
+
+		saveSearchRecord(keyword)
 	}
 	return models.Book{}.GetList(where, "id desc", offset, size, fields)
 }
@@ -81,4 +84,17 @@ func GetApplyBookList(page int, size int) []models.ReturnApplyList {
 func GetApplyBookListCount() int64 {
 	where := map[string]interface{}{}
 	return models.BookApply{}.GetCount(where)
+}
+
+func saveSearchRecord(keyword string) {
+	result := models.Search{}.GetOne(map[string]interface{}{"keyword": keyword, "Platform": global.Platform}, "id desc", "id,num")
+	if result.Id > 0 {
+		models.Search{}.Update(map[string]interface{}{"num": result.Num + 1}, map[string]interface{}{"id": result.Id})
+	} else {
+		models.Search{
+			Keyword:  keyword,
+			Num:      1,
+			Platform: global.Platform,
+		}.Insert()
+	}
 }
