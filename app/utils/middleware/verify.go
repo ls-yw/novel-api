@@ -1,12 +1,14 @@
 package middleware
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/woodlsy/woodGin/config"
 	"github.com/woodlsy/woodGin/helper"
 	"github.com/woodlsy/woodGin/log"
+	"io/ioutil"
 	"net/http"
 	"novel/app/data/global"
 	"novel/app/utils/common"
@@ -47,7 +49,7 @@ func VerifySign() gin.HandlerFunc {
 		var jsonData map[string]interface{}
 		jsonBody, _ := c.GetRawData()
 		_ = json.Unmarshal(jsonBody, &jsonData)
-
+		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(jsonBody))
 		data := map[string]interface{}{
 			"timestamp": timestamp,
 		}
@@ -83,5 +85,6 @@ func VerifySign() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+		c.Next()
 	}
 }
