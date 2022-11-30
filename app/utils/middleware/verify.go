@@ -78,10 +78,10 @@ func VerifySign() gin.HandlerFunc {
 		enStr := common.Md5(helper.Join("", common.Md5(str), config.Configs.App.Custom["encrypt-salt"].(string)))
 
 		if sign != enStr {
-			log.Logger.Error(c.Request.URL.Path)
-			log.Logger.Error(data)
-			log.Logger.Error(enStr)
-			log.Logger.Error(sign)
+			log.Logger.Warn("sign有问题：", c.ClientIP())
+			c.JSON(http.StatusOK, errors.Invalid)
+			c.Abort()
+			return
 		}
 	}
 }

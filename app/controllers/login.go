@@ -109,15 +109,15 @@ func (l Login) Register(c *gin.Context) {
 	}
 
 	// 验证短信验证码
-	/*	redisKey := redis.LoginSmsCode + params.Mobile
+	redisKey := redis.LoginSmsCode + params.Mobile
 
-		if !redis.Exists(redisKey) {
-			errors.SmsSaveCodeFailed.ReturnJson(c)
-		}
-		smsCode := redis.Get(redisKey)
-		if smsCode != params.SmsCode {
-			errors.SmsCodeFailed.ReturnJson(c)
-		}*/
+	if !redis.Exists(redisKey) {
+		errors.SmsSaveCodeFailed.ReturnJson(c)
+	}
+	smsCode := redis.Get(redisKey)
+	if smsCode != params.SmsCode {
+		errors.SmsCodeFailed.ReturnJson(c)
+	}
 
 	uid := servers2.Register(c, params.Username, params.Mobile, params.Password)
 	if uid == 0 {
